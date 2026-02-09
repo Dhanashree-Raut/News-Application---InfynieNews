@@ -44,15 +44,16 @@ https://github.com/Dhanashree-Raut/News-Application---InfynieNews.git
 
 ## 📁 Project Structure
 
-    src/
-     ├── components/
-     │   ├── News.jsx
-     │   ├── NewsItem.jsx
-     │   ├── Navbar.jsx
-     │   ├── Spinner.jsx
-     │   ├── sampleNews.js
-     │   └── Footer.jsx
-     └── App.jsx
+    News-Application---InfynieNews/
+     ├── README.md   ✅ (here)
+     ├── node_modules/
+     ├── public/
+     ├── src/
+     │   ├── components/
+     │   ├── App.js
+     │   ├── index.js
+     │   └── ...
+     └── package.json
 
 ------------------------------------------------------------------------
 
