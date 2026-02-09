@@ -15,6 +15,8 @@ import {
   Route,
   // Link
 } from "react-router-dom";
+import Home from './components/Home';
+import About from './components/About';
 
 export default class App extends Component {
   pageSize=5
@@ -47,11 +49,11 @@ export default class App extends Component {
           </Route>
 
           <Route exact  path="/about">
-              About
+              <About></About>
           </Route> 
 
           <Route exact  path="/">
-            Home
+            <Home></Home>
           </Route> 
         </Switch>
       {/* <News country="de" pageSize={this.pageSize} category="technology"/> */}

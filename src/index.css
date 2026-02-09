@@ -1,0 +1,49 @@
+.about-hero {
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.about-overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.55); /* dark overlay */
+  display: flex;
+  align-items: center;
+}
+
+.about-content {
+  color: #fff;
+  padding: 30px;
+  max-width: 600px;
+}
+
+
+.mission-hero {
+  height: 280px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mission-overlay {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+}
+
+.mission-content {
+  color: #fff;
+  padding: 30px;
+  max-width: 600px;
+}
+
+.mission-list li {
+  margin-bottom: 8px;
+  list-style: none;
+}
