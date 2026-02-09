@@ -5,15 +5,17 @@ import sampleNews from './sampleNews';
 
 export default class News extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      artical: sampleNews,
-      loading: true,
-      page: 1,
-      totalResult: 0,
-    }
-  }
+ constructor(props) {
+  super(props);
+
+  this.state = {
+    artical: sampleNews.slice(0, props.pageSize),
+    loading: true,
+    page: 1,
+    totalResult: sampleNews.length,
+  };
+}
+
 
   loadNextNews = async (event) => {
 
@@ -66,7 +68,7 @@ export default class News extends Component {
 
       } catch (err) {
         console.log("Using sample news");
-        this.setState({ loading: false });
+        this.setState({ loading: false , sampleInfo:true });
       }
 
       // let responce = await fetch(apiUrl);
@@ -91,6 +93,9 @@ export default class News extends Component {
   render() {
     return (
       <div className='container my-3'>
+        { this.state.sampleInfo? <div class="alert alert-danger" role="alert">
+          These are sample news (live API unavailable)
+        </div> : ''}
         <h1 className='text-center m-3'>Infynie News - Top Headlines</h1>
         {this.state.loading ?
           <div className='text-center'><Spinner></Spinner></div> :
