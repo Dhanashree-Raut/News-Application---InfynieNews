@@ -11,10 +11,10 @@ export default class News extends Component {
 
     // Set Default Values for states.
     this.state = {
-      artical: sampleNews.slice(0, props.pageSize),
+      artical: [],//sampleNews.slice(0, props.pageSize),
       loading: true,
       page: 1,
-      totalResult: sampleNews.length,
+      totalResult: 0,//sampleNews.length,
       hasMoreNews: true,
     };
   }
@@ -45,10 +45,12 @@ export default class News extends Component {
 
   // To update the news for pages and action like next and previous
   updateNews = async (page, action) => {
+    this.props.setProgress(20)
+
 
     if (!(action === "next" && page + 1 > Math.ceil(this.state.totalResult / this.props.pageSize))) {
 
-      let apiKey = 'b13c9a484b654f3ba25e963f1789f853'
+      let apiKey = this.props.apiKey//'b13c9a484b654f3ba25e963f1789f853'
       let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
 
       try {
@@ -76,23 +78,23 @@ export default class News extends Component {
         // If any error occer then use sample news data.
         console.log("Using sample news");
         this.setState({ loading: false, sampleInfo: true });
+        await this.setState({
+          artical: this.state.artical.concat(sampleNews),
+        });
       }
 
     }
+
+    this.props.setProgress(100)
 
 
   }
 
   fetchMoreNews = async () => {
-    
-    await this.setState({
-      page: this.state.page + 1,
-      hasMoreNews: this.state.totalResult !== this.state.artical.length,
-    })
 
-    let apiKey = 'b13c9a484b654f3ba25e963f1 789f853'
+
+    let apiKey = this.props.apiKey;
     let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${this.state.page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
-
 
     try {
       let responce = await fetch(apiUrl);
@@ -107,12 +109,26 @@ export default class News extends Component {
         throw new Error("Empty API response");
       }
 
+      if (this.state.page === 1) {
+        // Update State.
+        await this.setState({
+          artical: this.state.artical.concat(parsedData.articles),
+
+        });
+      }
+
       // Update State.
       await this.setState({
         artical: this.state.artical.concat(parsedData.articles),
         totalResult: parsedData.totalResults,
         loading: false
       });
+
+
+      await this.setState({
+        page: this.state.page + 1,
+        hasMoreNews: this.state.totalResult !== this.state.artical.length,
+      })
 
     } catch (err) {
       // If any error occer then use sample news data.
@@ -125,9 +141,10 @@ export default class News extends Component {
   };
 
   // When Componend is build the use page 1 to update the news.
-  // async componentDidMount() {
-  //   this.updateNews(1);
-  // }
+  async componentDidMount() {
+    this.updateNews(1);
+    // this.fetchMoreNews();
+  }
 
 
   render() {

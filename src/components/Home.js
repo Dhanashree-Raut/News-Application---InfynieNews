@@ -5,7 +5,15 @@ import DataCard from './DataCard';
 import categories from './categoriesData';
 
 export default class Home extends Component {
+  componentDidMount(){
+
+      this.props.setProgress(20)
+      this.props.setProgress(100)
+    }
+
+
   render() {
+    
     return (
       <div className="p-5 bg-light">
 
@@ -27,6 +35,7 @@ export default class Home extends Component {
         </div>
 
         <Footer />
+        
       </div>
     );
   }

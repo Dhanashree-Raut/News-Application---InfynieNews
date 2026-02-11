@@ -22,7 +22,7 @@ export default class NewsItem extends Component {
 
 
     return (
-      <div className="card my-3">
+      <div className="card my-3 ifns-news-card">
         <span className="position-absolute top-0 z-1 start-50 p-3 translate-middle badge rounded-pill bg-success">
           {source}
         </span>
