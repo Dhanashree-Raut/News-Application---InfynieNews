@@ -12,9 +12,6 @@ export default class Home extends Component {
         <ImageSlider />
 
         <h1 className="fw-bold mb-3">Welcome to Infynie News</h1>
-        {/* <p className="text-muted mb-4">
-          Stay updated with trusted news across multiple categories.
-        </p> */}
 
         <div className="row">
           {categories.map(item => (
