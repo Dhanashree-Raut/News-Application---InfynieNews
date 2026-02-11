@@ -16,13 +16,14 @@ import {
   // Link
 } from "react-router-dom";
 
+// Including Required Cmponents
 import Home from './components/Home';
 import About from './components/About';
 import LoadingBar from "react-top-loading-bar";
 
 export default class App extends Component {
   pageSize = 5
-  apiKey = process.env.REACT_APP_API_NEWSAPI; // 'b13c9a484b654f3ba25e963f1789f853'
+  apiKey = process.env.REACT_APP_API_NEWSAPI; 
   state = {
     progress : 0
   }
@@ -39,7 +40,6 @@ export default class App extends Component {
           onLoaderFinished={() => this.setProgress(0)}
         />
         <Switch>
-
           <Route exact path="/science">
             <News apiKey={this.apiKey} setProgress={this.setProgress} key="science" country="us" pageSize={this.pageSize} category="science" />
           </Route>
@@ -70,7 +70,6 @@ export default class App extends Component {
             <Home setProgress={this.setProgress}></Home>
           </Route>
         </Switch>
-        {/* <News apiKey={this.apiKey} setProgress={this.setProgress} country="de" pageSize={this.pageSize} category="technology"/> */}
       </Router>
     )
   }

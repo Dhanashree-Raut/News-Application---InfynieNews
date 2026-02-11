@@ -50,7 +50,7 @@ export default class News extends Component {
 
     if (!(action === "next" && page + 1 > Math.ceil(this.state.totalResult / this.props.pageSize))) {
 
-      let apiKey = this.props.apiKey//'b13c9a484b654f3ba25e963f1789f853'
+      let apiKey = this.props.apiKey
       let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
 
       try {
