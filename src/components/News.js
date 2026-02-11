@@ -11,7 +11,7 @@ export default class News extends Component {
 
     // Set Default Values for states.
     this.state = {
-      artical: [],//sampleNews.slice(0, props.pageSize),
+      artical: sampleNews.slice(0, props.pageSize),
       loading: true,
       page: 1,
       totalResult: sampleNews.length,
@@ -68,7 +68,7 @@ export default class News extends Component {
         await this.setState({
           artical: parsedData.articles,
           totalResult: parsedData.totalResults,
-          page : this.state.page+1,
+          page: this.state.page + 1,
           loading: false
         });
 
@@ -84,15 +84,15 @@ export default class News extends Component {
   }
 
   fetchMoreNews = async () => {
+    
     await this.setState({
       page: this.state.page + 1,
       hasMoreNews: this.state.totalResult !== this.state.artical.length,
     })
 
-    console.log(this.state.page)
-
-    let apiKey = 'b13c9a484b654f3ba25e963f1789f853'
+    let apiKey = 'b13c9a484b654f3ba25e963f1 789f853'
     let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${this.state.page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
+
 
     try {
       let responce = await fetch(apiUrl);
@@ -118,18 +118,16 @@ export default class News extends Component {
       // If any error occer then use sample news data.
       console.log("Using sample news");
       this.setState({ loading: false, sampleInfo: true });
-       await this.setState({
-        artical: sampleNews.slice( 0,  this.props.pageSize),
-      //   totalResult: parsedData.totalResults,
-      //   loading: false
+      await this.setState({
+        artical: this.state.artical.concat(sampleNews),
       });
     }
   };
 
   // When Componend is build the use page 1 to update the news.
-  async componentDidMount() {
-    this.updateNews(1);
-  }
+  // async componentDidMount() {
+  //   this.updateNews(1);
+  // }
 
 
   render() {
