@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Footer from '../components/Footer'
 
-export default class About extends Component {
-    render() {
-        return (
+export default function About() {
+   return (
             <div className="container py-5">
 
                 {/* HERO */}
@@ -36,26 +36,6 @@ export default class About extends Component {
                     </div>
                 </div>
 
-                {/* <div className="row align-items-center mb-5">
-                    <div className="col-md-6 mb-3">
-                        <img
-                            src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167"
-                            alt="Newsroom"
-                            className="img-fluid rounded shadow"
-                        />
-                    </div>
-                    <div className="col-md-6">
-                        <h4 className="mb-3">📰 Who We Are</h4>
-                        <p>
-                            Infynie News is a digital-first news platform focused on delivering
-                            reliable and real-time information.
-                        </p>
-                        <p>
-                            We simplify complex news and make it accessible across categories
-                            like Business, Technology, Health, Sports, and Entertainment.
-                        </p>
-                    </div>
-                </div> */}
 
                 {/* OUR MISSION */}
                 <div
@@ -106,8 +86,8 @@ export default class About extends Component {
                         you can stay informed with confidence.
                     </p>
                 </div>
+                <Footer></Footer>
 
             </div>
         )
-    }
 }

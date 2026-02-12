@@ -1,57 +1,29 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner'
 import sampleNews from './sampleNews';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export default class News extends Component {
+const News = (props) => {
 
-  constructor(props) {
-    super(props);
+  let [artical, setArtical] = useState([]);
+  let [page, setPage] = useState(1);
+  let [totalResult, setTotalResult] = useState(0);
+  let [hasMoreNews, setHasMoreNews] = useState(true);
+  const [sampleInfo, setsampleInfo] = useState(false)
 
-    // Set Default Values for states.
-    this.state = {
-      artical: [],//sampleNews.slice(0, props.pageSize),
-      loading: true,
-      page: 1,
-      totalResult: 0,//sampleNews.length,
-      hasMoreNews: true,
-    };
-  }
-
-
-  // To handle next button
-  loadNextNews = async (event) => {
-
-    await this.setState({
-      page: this.state.page + 1,
-      loading: true,
-    });
-
-    await this.updateNews(this.state.page, "next");
-
-  }
-
-  // To handle Previous Button
-  loadPrevNews = async (event) => {
-
-    await this.setState({
-      page: this.state.page - 1,
-      loading: true,
-    });
-
-    await this.updateNews(this.state.page, "prev");
-  }
+  const getFirstCapital = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
   // To update the news for pages and action like next and previous
-  updateNews = async (page, action) => {
-    this.props.setProgress(20)
+  const updateNews = async (page, action) => {
+    props.setProgress(20)
 
+    if (!(action === "next" && page + 1 > Math.ceil(totalResult / props.pageSize))) {
 
-    if (!(action === "next" && page + 1 > Math.ceil(this.state.totalResult / this.props.pageSize))) {
-
-      let apiKey = this.props.apiKey
-      let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
+      let apiKey = props.apiKey
+      let apiUrl = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&page=${page}&pageSize=${props.pageSize}&apiKey=${apiKey}`
 
       try {
         let responce = await fetch(apiUrl);
@@ -66,35 +38,30 @@ export default class News extends Component {
           throw new Error("Empty API response");
         }
 
-        // Update State.
-        await this.setState({
-          artical: parsedData.articles,
-          totalResult: parsedData.totalResults,
-          page: this.state.page + 1,
-          loading: false
-        });
+        // Update Required States.
+        setArtical(parsedData.articles);
+        setTotalResult(parsedData.totalResults)
+        // setPage(page + 1)
 
       } catch (err) {
         // If any error occer then use sample news data.
         console.log("Using sample news");
-        this.setState({ loading: false, sampleInfo: true });
-        await this.setState({
-          artical: this.state.artical.concat(sampleNews),
-        });
+        // Update Required States.
+
+        setArtical(artical.concat(sampleNews));
+        setsampleInfo(true)
+
       }
-
     }
-
-    this.props.setProgress(100)
-
-
+    setPage(page + 1)
+    props.setProgress(100)
   }
 
-  fetchMoreNews = async () => {
+  const fetchMoreNews = async () => {
 
-
-    let apiKey = this.props.apiKey;
-    let apiUrl = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&page=${this.state.page}&pageSize=${this.props.pageSize}&apiKey=${apiKey}`
+    let apiKey = props.apiKey;
+    let apiUrl = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&page=${page+1}&pageSize=${props.pageSize}&apiKey=${apiKey}`
+    setPage(page + 1)
 
     try {
       let responce = await fetch(apiUrl);
@@ -109,62 +76,47 @@ export default class News extends Component {
         throw new Error("Empty API response");
       }
 
-      if (this.state.page === 1) {
-        // Update State.
-        await this.setState({
-          artical: this.state.artical.concat(parsedData.articles),
+      // Update Required States.
+      setArtical(artical.concat(parsedData.articles))
+      setTotalResult(parsedData.totalResults)
+      setHasMoreNews(totalResult !== artical.length)
 
-        });
-      }
-
-      // Update State.
-      await this.setState({
-        artical: this.state.artical.concat(parsedData.articles),
-        totalResult: parsedData.totalResults,
-        loading: false
-      });
-
-
-      await this.setState({
-        page: this.state.page + 1,
-        hasMoreNews: this.state.totalResult !== this.state.artical.length,
-      })
 
     } catch (err) {
       // If any error occer then use sample news data.
       console.log("Using sample news");
-      this.setState({ loading: false, sampleInfo: true });
-      await this.setState({
-        artical: this.state.artical.concat(sampleNews),
-      });
+
+      // Update Required States.
+      setsampleInfo(true)
+      setArtical(artical.concat(sampleNews))
     }
   };
 
-  // When Componend is build the use page 1 to update the news.
-  async componentDidMount() {
-    this.updateNews(1);
-    // this.fetchMoreNews();
-  }
+  useEffect(() => {
+    document.title =getFirstCapital(props.category)+ " News";
+    updateNews(1);
+  }, [])
 
+  return (
+    <>
+      <div className='' style={{ margin: '70px' }}>
 
-  render() {
-    return (
-      <>
-        {this.state.sampleInfo ? <div className="alert alert-danger" role="alert">
+        {sampleInfo ? <div className=" alert alert-danger" role="alert">
           These are sample news (live API unavailable)
         </div> : ''}
-        <h1 className='text-center m-3'>Infynie News - Top Headlines</h1>
+        <h1 className='text-center m-3'>{getFirstCapital(props.category)} - Top Headlines</h1>
 
         <InfiniteScroll
-          dataLength={this.state.artical.length}
-          next={this.fetchMoreNews}
-          hasMore={this.state.hasMoreNews}
+          dataLength={artical.length}
+          next={fetchMoreNews}
+          hasMore={hasMoreNews}
           loader={<Spinner />}
         >
           <div className="container row m-auto">
 
             {/* Show the News items */}
-            {this.state.artical.map((news) => {
+            {/* { console.log(artical)} */}
+            {artical.map((news) => {
               return <div className="col-md-4" key={news.url}>
                 <NewsItem title={news.title ? news.title.slice(0, 40) : ''} desc={news.description ? news.description.slice(0, 60) : ""} source={news.source.name} author={news.author ? news.author : "Unknown"} publishDate={news.publishedAt} imgUrl={news.urlToImage} link={news.url} />
               </div>
@@ -172,12 +124,12 @@ export default class News extends Component {
 
           </div>
         </InfiniteScroll>
+      </div>
 
-
-
-
-
-      </>
-    )
-  }
+    </>
+  )
 }
+
+
+
+export default News

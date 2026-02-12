@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ImageSlider from '../ImageSlider';
-import Footer from './Footer';
-import DataCard from './DataCard';
-import categories from './categoriesData';
+import Footer from '../components/Footer';
+import DataCard from '../components/DataCard';
+import categories from '../components/categoriesData';
+
 
 export default class Home extends Component {
   componentDidMount(){
-
       this.props.setProgress(20)
       this.props.setProgress(100)
     }
