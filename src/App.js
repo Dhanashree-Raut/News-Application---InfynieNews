@@ -64,7 +64,7 @@ import LoadingBar from "react-top-loading-bar";
           </Route>
 
           <Route exact path="/">
-            <Home setProgress={setProgress}></Home>
+            <Home setProgress={setProgress}  apiKey={apiKey} key="science" country="us" pageSize={pageSize} category="general"  ></Home>
           </Route>
         </Switch>
       </Router>

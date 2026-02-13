@@ -47,3 +47,16 @@
   margin-bottom: 8px;
   list-style: none;
 }
+
+
+/* Adding Anomation on Home page */
+.scroll-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.scroll-show {
+  opacity: 1;
+  transform: translateY(0);
+}

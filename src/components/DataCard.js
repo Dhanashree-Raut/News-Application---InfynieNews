@@ -20,7 +20,7 @@ const DataCard = (props) => {
           <p className="card-text text-muted">{desc}</p>
 
           <Link to={path} className="btn btn-primary btn-sm">
-            Read {title} News →
+            Read {title} News
           </Link>
         </div>
       </div>

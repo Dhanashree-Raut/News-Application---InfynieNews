@@ -89,9 +89,12 @@ npm start
 
 Create a `.env` file in the root directory and add:
 
-    REACT_APP_NEWS_API_KEY=your_api_key_here
+    REACT_APP_API_NEWSAPI=your_api_key_here
 
 > ⚠️ Note: News API free plan works only on localhost.\
+>
+>  Used News API : https://newsapi.org/
+> 
 > For hosted environments, the app uses sample news as fallback.
 
 ------------------------------------------------------------------------
